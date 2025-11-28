@@ -6,13 +6,15 @@
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "dev": "nodemon server.js",
-    "db_setup": "node src/database/queries.js"
+    "db_setup": "node src/database/queries.js",
+    "seed": "node src/seed/seed.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

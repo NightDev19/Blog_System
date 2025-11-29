@@ -20,11 +20,7 @@ class AuthController {
       if (user.role === "admin") {
         return res.redirect("/api/admin");
       } else {
-        res.render("pages/user/index", {
-          user,
-          title: user.username,
-          route: "User",
-        });
+        return res.redirect("/api/user");
       }
     } catch (error) {
       // On error, re-render login page with message
@@ -44,13 +40,9 @@ class AuthController {
         if (decoded && decoded.role) {
           // Redirect based on role
           if (decoded.role === "admin") {
-            return res.redirect("/api/admin"); // UI admin route
+            return res.redirect("/api/admin");
           } else {
-            return res.render("pages/user/index", {
-              user,
-              title: user.username,
-              route: "User",
-            });
+            return res.redirect("/api/user");
           }
         }
       }

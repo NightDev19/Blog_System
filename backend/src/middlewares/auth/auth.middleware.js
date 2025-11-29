@@ -49,7 +49,7 @@ class AuthMiddleware {
         return res.status(403).render("pages/auth/forbidden", {
           title: "Access Denied",
           route: "Auth",
-          user: req.user || null,
+          user: req.user,
         });
       }
       next();

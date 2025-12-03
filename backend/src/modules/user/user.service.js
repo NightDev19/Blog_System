@@ -1,8 +1,10 @@
 import dbPool from "../../database/index.js";
+import bcrypt from "bcrypt";
+import UserDTO from "./user.dto.js";
 
 class UserService {
   async getProfileInformation(id) {
-    const con = await dbPool.connect(); // await the connection
+    const con = await dbPool.connect();
 
     try {
       const result = await con.query(
@@ -13,28 +15,37 @@ class UserService {
       if (result.rowCount === 0) {
         throw new Error("User not found");
       }
+      console.log("User data:", result.rows[0]);
 
-      return result;
+      return UserDTO.toProfile(result.rows[0]);
     } finally {
-      con.release(); // ensure proper release
+      con.release();
     }
   }
+
   async updateProfileInformation(id, data) {
     const con = await dbPool.connect();
-
     try {
-      const { email, username } = data;
+      const sanitized = UserDTO.sanitizeUpdate(data);
+      const { username, email, password } = sanitized;
 
-      const result = await con.query(
-        "UPDATE users SET email = $1, username = $2, updated_at = NOW() WHERE id = $3 RETURNING *",
-        [email, username, id]
+      const userExist = await con.query(
+        "SELECT 1 FROM users WHERE id = $1 LIMIT 1",
+        [id]
       );
+      if (userExist.rowCount === 0) throw new Error("User not found");
 
-      if (result.rowCount === 0) {
-        throw new Error("User not found or update failed");
-      }
+      const fields = { username, email };
+      if (password) fields.password = await bcrypt.hash(password, 10);
 
-      return result;
+      const keys = Object.keys(fields);
+      const setClause = keys.map((k, i) => `${k} = $${i + 1}`).join(", ");
+      const values = [...Object.values(fields), id];
+
+      const updateQuery = `UPDATE users SET ${setClause}, updated_at = NOW() WHERE id = $${values.length} RETURNING *`;
+
+      const result = await con.query(updateQuery, values);
+      return UserDTO.toProfile(result.rows[0]);
     } finally {
       con.release();
     }

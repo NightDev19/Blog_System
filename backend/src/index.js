@@ -32,7 +32,7 @@ app.set("layout", "layouts/main");
 
 // Test route
 app.get("/", (req, res) => {
-  res.render("pages/admin/index", { title: "Home" });
+  res.render("pages/auth/login", { title: "Home", route: "Home", error: null });
 });
 
 // API Route

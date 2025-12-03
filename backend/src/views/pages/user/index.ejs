@@ -1,7 +1,8 @@
 <h1>Hello <%= user.username %></h1>
 
-<!-- Logout button -->
-<form action="/api/auth/logout" method="GET">
+<a href="/api/user/profile/<%= encodeURIComponent(user.id) %>">Profile</a>
+
+<form action="/api/auth/logout" method="POST">
   <button
     type="submit"
     class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"

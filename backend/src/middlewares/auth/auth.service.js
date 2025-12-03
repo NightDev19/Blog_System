@@ -36,14 +36,5 @@ class authService {
       con.release();
     }
   }
-  logout(req, res) {
-    // Clear the JWT cookie
-    res.clearCookie("token", {
-      httpOnly: true,
-      sameSite: "lax",
-    });
-    // Redirect to login page
-    return res.redirect("api/auth/login");
-  }
 }
 export default new authService();

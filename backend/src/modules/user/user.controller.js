@@ -1,5 +1,5 @@
 import userService from "./user.service.js";
-import { formatUpdated } from "../../helpers/user.helper.js";
+import { formatUpdated } from "../../helpers/date.helper.js";
 
 class UserController {
   // GET profile page

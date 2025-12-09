@@ -13,7 +13,7 @@ export default function setupCors(app) {
             callback(new Error("Not allowed by CORS"));
           }
         },
-      })
+      }),
     );
   }
 }

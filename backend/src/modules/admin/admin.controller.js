@@ -11,6 +11,11 @@ class AdminController {
         .json({ success: false, message: "Failed to fetch users" });
     }
   }
+  // admin.controller.js
+  static async fetchAdminPosts(userId) {
+    // Add userId parameter
+    return await adminServices.getAdminPost(userId);
+  }
 }
 
 export default AdminController;

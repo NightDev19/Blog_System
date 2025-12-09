@@ -9,13 +9,13 @@ class UserService {
     try {
       const result = await con.query(
         "SELECT * FROM users WHERE id = $1 LIMIT 1",
-        [id]
+        [id],
       );
 
       if (result.rowCount === 0) {
         throw new Error("User not found");
       }
-      console.log("User data:", result.rows[0]);
+      // console.log("User data:", result.rows[0]);
 
       return UserDTO.toProfile(result.rows[0]);
     } finally {
@@ -31,7 +31,7 @@ class UserService {
 
       const userExist = await con.query(
         "SELECT 1 FROM users WHERE id = $1 LIMIT 1",
-        [id]
+        [id],
       );
       if (userExist.rowCount === 0) throw new Error("User not found");
 
